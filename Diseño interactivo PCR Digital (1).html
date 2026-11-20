@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Registro de Atención al Paciente · Ambulancias</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>tailwind.config={darkMode:'class'}</script>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+.inp{width:100%;min-height:48px;padding:10px 12px;border:2px solid #cbd5e1;border-radius:12px;font-size:16px;background:#fff;color:#0f172a}
+.dark .inp,.dark .pill{background:#1e293b;border-color:#475569;color:#f1f5f9}
+.pill{min-height:48px;padding:8px 14px;border:2px solid #cbd5e1;border-radius:999px;font-weight:600;background:#fff;color:#0f172a}
+.pill.sm{min-height:40px;padding:6px 10px;font-size:14px}
+.pill.xs{min-height:32px;padding:2px 4px;font-size:12px;width:100%}
+.tinp{width:100%;min-height:40px;padding:4px 2px;border:2px solid #cbd5e1;border-radius:8px;font-size:14px;text-align:center;background:#fff;color:#0f172a}
+.dark .tinp{background:#1e293b;border-color:#475569;color:#f1f5f9}
+#tbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:#f1f5f9;padding-top:4px;padding-bottom:10px;margin-bottom:16px;border-bottom:2px solid #94a3b8;box-shadow:0 5px 6px -5px rgba(0,0,0,.3)}
+.dark #tbar{background:#0f172a;border-bottom-color:#64748b}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:#f1f5f9}
+.dark body::before{background:#0f172a}
+.pill.on{background:#dc2626;border-color:#dc2626;color:#fff}
+.pill.on.tII{background:#eab308;border-color:#eab308;color:#000}
+.pill.on.tIII{background:#16a34a;border-color:#16a34a}
+.pill.on.tIV{background:#111827;border-color:#111827}
+.l{font-size:13px;font-weight:600;display:block;margin-bottom:4px}
+#sheet{display:none;background:#fff;color:#000}#sheet.on{display:block}
+.st{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:4px}
+.st td{border:1px solid #000;padding:3px 5px;vertical-align:top}
+.sh{background:#e5e7eb;border:1px solid #000;font-weight:700;font-size:11px;padding:2px 5px;margin-top:6px}
+.gh{font-weight:700;font-size:12px;text-align:center;padding:8px 2px;color:#111;border:2px solid #444;border-radius:6px 6px 0 0}.gb{display:flex;justify-content:space-between;align-items:center;gap:2px;width:100%;min-height:48px;padding:4px 6px;font-size:12px;color:#111;border:1px solid #888;margin-top:2px;text-align:left;line-height:1.1}.gb.on{background:#111!important;color:#fff;border-color:#111}.hO{background:#f0a58f}.bO{background:#f8d9c8}.hV{background:#9a9a9a}.bV{background:#cfcfcf}.hM{background:#f08f9c}.bM{background:#f6cdd3}.gf{background:#4b4b4b;color:#fff;text-align:center;padding:8px;font-size:13px;margin-top:4px;border-radius:0 0 6px 6px}
+#fabs{position:fixed;right:12px;bottom:calc(96px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px;z-index:40}
+.fab{width:48px;height:48px;border-radius:50%;border:2px solid #fff;background:#dc2626;color:#fff;font-size:20px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.35);opacity:.92}
+#toast{display:none;position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#111;color:#fff;padding:10px 16px;border-radius:12px;z-index:50;font-size:14px}
+.pb{flex:1;min-width:0;min-height:46px;border-radius:10px;border:2px solid transparent;font-weight:700;font-size:15px;color:#111;padding:0}
+.pb.on{color:#fff;border-color:#111;transform:scale(1.1);box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.gs{font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#1e3a5f;margin:14px 0 6px}
+.dark .gs{color:#93c5fd}
+.go{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:48px;padding:6px 12px;border:2px solid #e2e8f0;border-radius:12px;background:#fff;color:#0f172a;font-size:14px;text-align:left;line-height:1.15}
+.go b{font-size:16px;color:#64748b}
+.go.on{background:#1e3a5f;border-color:#1e3a5f;color:#fff}.go.on b{color:#fff}
+.dark .go{background:#1e293b;border-color:#475569;color:#f1f5f9}
+.dark .go.on{background:#2563eb;border-color:#2563eb}
+.gt{background:#1e3a5f;color:#fff;font-weight:700;font-size:12px;text-align:center;padding:8px 2px;border-radius:10px;line-height:1.15}
+.dark .gt{background:#334155}
+.go.sm{font-size:12px;padding:4px 6px;min-height:52px;gap:4px;border-radius:10px;word-break:break-word}
+.go.sm b{font-size:15px}
+.gres{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border:2px solid #cbd5e1;border-radius:16px;background:#fff;color:#0f172a}
+.dark .gres{background:#1e293b;border-color:#475569;color:#f1f5f9}
+.gres.done{background:#fff;border-color:#1e3a5f;color:#1e3a5f}
+.dark .gres.done{background:#fff;border-color:#1e3a5f;color:#1e3a5f}
+.gres .n{font-size:44px;font-weight:800;line-height:1}
+.gres .n small{font-size:14px;font-weight:600}
+.gres small{font-size:12px;opacity:.8}
+#app,#fabs{zoom:.7}
+@media print{.noprint,#app,#toast{display:none!important}@page{size:A4;margin:10mm}}
+</style></head>
+<body class="bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-100">
+<div id="app" class="max-w-xl mx-auto px-4 pt-3 pb-32">
+<header class="flex items-center justify-between gap-2 mb-3"><h1 class="font-extrabold text-lg">🚑 Registro de Atención al Paciente</h1>
+<div class="flex gap-2"><button class="pill sm" data-act="theme">🌙</button><button class="pill sm" data-act="fill">Prueba</button><button class="pill sm" data-act="new">Nuevo</button></div></header>
+<main id="main"></main>
+<nav class="fixed bottom-0 inset-x-0 bg-white dark:bg-slate-800 border-t border-slate-300 dark:border-slate-600" style="padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))"><div id="nav" class="max-w-xl mx-auto flex gap-2"></div></nav>
+</div>
+<div id="fabs" class="noprint"><button class="fab" data-act="up" aria-label="Ir al inicio">▲</button><button class="fab" data-act="down" aria-label="Ir al final">▼</button></div>
+<div id="sheet"></div><div id="toast"></div><input type="file" id="ph" accept="image/*" capture="environment" hidden>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LT={'Contusión':['C','#7c3aed'],'Abrasión':['A','#b45309'],'Laceración':['L','#0891b2'],'H. Penetrante':['HP','#dc2626'],'Picadura/Mordedura':['PM','#16a34a'],'H. Avulsiva':['AV','#ea580c'],Empalamiento:['E','#be185d'],Fractura:['F','#1d4ed8'],Esguince:['ES','#0d9488'],'Luxación':['LX','#a16207'],Trauma:['T','#475569']};
+const S=[
+{t:'Identificación del servicio',f:[['ips','IPS que realiza el traslado'],['sem','SEM','half'],['placa','Placa de la ambulancia','half'],['sep1','','hr'],['hSalida','Hora de salida','tm'],['hEscena','Hora de llegada a la escena','tm'],['hTraslado','Hora de inicio de traslado','tm'],['hIPS','Hora de llegada a la IPS','tm'],['hFin','Hora de fin del evento','tm'],['direccion','Dirección del evento','addr'],['comuna','Comuna','com',[...Array(17)].map((_,i)=>''+(i+1)).concat('No aplica')],['barrio','Barrio'],['sepB','','hr'],['hEvento','Hora del evento','time']]},
+{t:'Paciente y Evento',get f(){const at=D.tev=='A.T',eg=D.tev=='E.G';return nnf([['nn','','nn'],['nombre','Nombre completo'],['tdoc','Tipo','tipo',[['CE','Cédula de extranjería'],['CC','Cédula de ciudadanía'],['TI','Tarjeta de identidad'],['RN','Registro de nacimiento'],['PPT','Permiso por protección temporal (PPT)'],['OTRO','Otro']]],['doc','Documento','docr'],['fnac','Fecha de nacimiento','date'],['edad','Edad','half'],['genero','Sexo','gen',['Masculino','Femenino']],['sepS','','hr'],['tsangre','Tipo de sangre','selh',BL],['ecivil','Estado civil','selh',['Soltero(a)','Casado(a)','Unión libre','Separado(a)','Divorciado(a)','Viudo(a)']],['eps','EPS'],['ocup','Ocupación'],['dirViv','Dirección de vivienda'],...(ac(D.tdoc)?[['sep2','','hr'],['aParent','Parentesco'],['aNombre','Nombre completo (acudiente)'],['atdoc','Tipo doc. acudiente','tipoa',[['CC','Cédula de ciudadanía'],['CE','Cédula de extranjería'],['PPT','Permiso por protección temporal (PPT)'],['OTRO','Otro']]],['adoc','Documento acudiente','docr']]:[]),['tel','Teléfono','tel'],['emerg','Contacto de emergencia','half'],['sep','','hr'],['victimas','N° de víctimas','number'],['tev','Tipo de evento','p',['A.T','E.G']],...(at?[['tipoVeh','Tipo de vehículo','p',['Automóvil','Moto','Bicicleta','Camión','Bus','Otro']],['aseg','Aseguramiento','p',['SOAT','ADRES','Ninguno']],['aseguradora','Aseguradora'],['poliza','N° de póliza'],['polizaPlaca','Placa de la póliza']]:[]),...(eg?[['aseg','Aseguramiento','p',['EPS','ADRES']]]:[]),['hechos','Versión de los hechos','ta']])}},
+{t:'Signos vitales y estado',f:[['fc','FC (lpm)','number'],['sat','SatO₂ (%)','number'],['pas','PAS (mmHg)','number'],['pad','PAD (mmHg)','number'],['fr','FR (rpm)','number'],['temp','Temp (°C)','number'],['gl','Escala de Glasgow','gcs'],['neuro','','m',['Aparente estado de alicoramiento']],['sepN','','hr'],['triage','Triage','triage'],['isub','','sub'],['antec','Antecedentes patológicos','niega'],['medic','Medicamentos','niega'],['alerg','Alergias','niega'],['otroC','Otro','txt']]},
+{t:'Mapa corporal de lesiones',map:1},
+{t:'Traslado y Personal encargado',get f(){const ca=D.acomp=='Sí',ot=D.acTipo=='Otro';return [['ipsTras','IPS de traslado'],['acomp','Con acompañante','tog'],...(ca?[['acTipo','Acompañante','acsel']]:[]),...(ca&&D.acTipo=='Mismo por menor de edad'?[['acinfo','','acinfo']]:[]),...(ca&&ot?[['cParent','Parentesco (acompañante)'],['cNombre','Nombre completo (acompañante)'],['ctdoc','Tipo doc. acompañante','tipoc',[['CC','Cédula de ciudadanía'],['CE','Cédula de extranjería'],['PPT','Permiso por protección temporal (PPT)'],['OTRO','Otro']]],['cdoc','Documento acompañante','docr'],['cTel','Teléfono (acompañante)','tel']]:[]),['sepA','','hr'],['aux','Auxiliar / Paramédico'],['cond','Conductor'],['sepC','','hr'],['adm','Persona encargada que recibe al paciente']]}}];
+[S[2],S[3]]=[S[3],S[2]];
+let D={},M=[],P=[],step=0,mt='Contusión',armed=0,SCOK=null,SCMSG='',scanning=0;
+const g=k=>esc(k=='tev'&&TEV[D[k]]?TEV[D[k]]:(k=='tdoc'||k=='atdoc')&&D[k]=='OTRO'&&D[k+'O']?D[k+'O']:D[k]);
+const GCS=[['O','Apertura ocular',[[4,'Espontánea'],[3,'A estímulo verbal'],[2,'A estímulo doloroso'],[1,'Ninguna']]],['V','Respuesta verbal',[[5,'Orientado'],[4,'Confuso'],[3,'Inapropiado'],[2,'Incomprensible'],[1,'Ninguna']]],['M','Respuesta motora',[[6,'Obedece'],[5,'Localiza el dolor'],[4,'Retirada al dolor'],[3,'Flexión anormal'],[2,'Extensión anormal'],[1,'Ninguna']]]];
+const glx=()=>{const nm=c=>{const o=GCS.find(x=>x[0]==c)[2].find(p=>p[0]==D['g'+c]);return o?c+o[0]+' '+o[1]:''},t=['O','V','M'].map(nm).filter(Boolean).join(' · '),tot=D.gl?D.gl.split(' ')[0]:'';const nc=D.neuro?5:4;return '<table class="st" style="table-layout:fixed"><colgroup><col style="width:14%"><col><col><col>'+(D.neuro?'<col style="width:24%">':'')+'</colgroup><tr><td colspan="'+nc+'" style="font-weight:700;vertical-align:middle">Escala de coma de Glasgow</td></tr><tr><td style="text-align:center;vertical-align:middle"><b style="font-size:14px">'+(tot||'&nbsp;&nbsp;')+'</b>/15</td>'+['O','V','M'].map(c=>'<td style="vertical-align:middle">'+esc(nm(c))+'&nbsp;</td>').join('')+(D.neuro?'<td style="vertical-align:middle"><b>'+esc(D.neuro)+'</b></td>':'')+'</tr></table>'};
+const trx=()=>'<table class="st" style="table-layout:fixed"><tr><td style="width:22%;font-weight:700;vertical-align:middle">Triage</td><td style="vertical-align:middle"><b style="font-size:14px">'+(g('triage')||'&nbsp;')+'</b></td></tr></table>';
+const gl=()=>{const a=['O','V','M'].map(c=>+D['g'+c]||0);D.gl=a.every(Boolean)?(a[0]+a[1]+a[2])+' (O'+a[0]+'·V'+a[1]+'·M'+a[2]+')':''};
+const age=s=>{const b=new Date(s+'T00:00:00'),n=new Date();if(isNaN(b)||b>n)return '';let a=n.getFullYear()-b.getFullYear();if(n<new Date(n.getFullYear(),b.getMonth(),b.getDate()))a--;if(a>=1)return a+(a==1?' año':' años');let m=(n.getFullYear()-b.getFullYear())*12+n.getMonth()-b.getMonth();if(n.getDate()<b.getDate())m--;return m>=1?m+(m==1?' mes':' meses'):Math.floor((n-b)/864e5)+' días'};
+function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast.i);toast.i=setTimeout(()=>t.style.display='none',2600)}
+const TS={CC:'CC',CE:'CE',TI:'TI',RN:'RN',PPT:'PPT',OTRO:'Otro'},TEV={'A.T':'Accidente de Tránsito','E.G':'Enfermedad General'},BL=['A+','A-','B+','B-','AB+','AB-','O+','O-','Desconocido'];
+const ac=v=>v=='TI'||v=='RN';
+const evs=()=>{const a=[['Antecedentes patológicos','antec'],['Medicamentos','medic'],['Alergias','alerg']].map(([l,k])=>{const v=D[k+'N']?'Niega':D[k];return v?l+': '+v:''}),p=[...a,D.otroC?'Otro: '+D.otroC:''].filter(Boolean);return p.length?'🩺 Evaluación secundaria – '+p.join('; ')+'\n':''};
+const HID=['nombre','nac','tdoc','doc','fnac','edad','tsangre','ecivil','eps','ocup','dirViv','sep2','aParent','aNombre','atdoc','adoc','tel','emerg'];
+const nnf=L=>D.nn?L.filter(f=>!HID.includes(f[0])).flatMap(f=>f[0]=='nn'?[f,['nnNombre','Nombre completo','nnv']]:f[0]=='genero'?[f,['edadAprox','Edad aproximada','half']]:[f]):L;
+const nom=()=>D.nn?'N.N':D.nombre,eda=()=>D.nn?(D.edadAprox?D.edadAprox+' (aprox.)':''):D.edad;
+const CI=()=>[['Parentesco',D.aParent],['Nombre completo',D.aNombre],['Tipo doc.',D.atdoc=='OTRO'&&D.atdocO?D.atdocO:TS[D.atdoc]||D.atdoc||''],['Documento',D.adoc],['Teléfono',D.tel]];
+const cmp=()=>{if(D.acomp!='Sí'||!D.acTipo)return '';const m=D.acTipo!='Otro',p=m?[D.aParent,D.aNombre,[D.atdoc=='OTRO'&&D.atdocO?D.atdocO:TS[D.atdoc]||D.atdoc,D.adoc].filter(Boolean).join(' '),D.tel]:[D.cParent,D.cNombre,[TS[D.ctdoc]||D.ctdoc,D.cdoc].filter(Boolean).join(' '),D.cTel];return '👥 Acompañante ('+(m?'mismo por menor de edad':'otro')+'): '+(p.filter(Boolean).join(' · ')||'sin datos')+'\n'};
+function field([k,l,t,o]){const v=D[k]||'';
+if(t=='nnv')return '';
+if(t=='com'){const b=x=>`<button type="button" class="pill sm ${v==x?'on':''}" style="padding:0;${x=='No aplica'?'grid-column:span 3':''}" data-k="${k}" data-v="${x}">${x}</button>`;return `<div class="col-span-2"><span class="l">${l}</span><div class="grid gap-1" style="grid-template-columns:repeat(10,1fr)">${o.map(x=>b(x)).join('')}</div></div>`}
+if(t=='niega'){const n=D[k+'N'];return `<div class="col-span-2"><label class="l">${l}</label><div class="flex gap-2"><button type="button" class="pill ${n?'on':''}" style="white-space:nowrap" data-k="${k}N" data-v="1">Niega</button><input class="inp" value="${esc(v)}" data-k="${k}" ${n?'disabled style="opacity:.5"':''}></div></div>`}
+if(t=='txt')return `<div class="col-span-2"><label class="l">${l}</label><input class="inp" value="${esc(v)}" data-k="${k}"></div>`;
+if(t=='sub')return `<div class="col-span-2 mt-2"><div class="font-bold text-base border-b-2 border-slate-300 dark:border-slate-600 pb-1">Evaluación secundaria</div></div>`;
+if(t=='triage'){const c={I:['#dc2626','#fff'],II:['#eab308','#000'],III:['#16a34a','#fff'],IV:['#111827','#fff']}[v];return `<div class="col-span-2"><span class="l">${l}</span><div class="flex gap-2">${['I','II','III','IV'].map(x=>`<button type="button" class="pill flex-1 ${v==x?'on t'+x:''}" data-k="${k}" data-v="${x}">${x}</button>`).join('')}</div></div>`}
+if(t=='tog')return `<div class="col-span-2"><button type="button" class="pill ${D.acomp=='Sí'?'on':''}" style="width:100%" data-act="acomp">Con acompañante</button></div>`;
+if(t=='acsel')return `<div class="col-span-2" style="margin-top:-6px;padding-left:14px"><div class="flex gap-2" style="border-left:3px solid #94a3b8;padding-left:10px"><button type="button" class="pill sm ${D.acTipo=='Mismo por menor de edad'?'on':''}" style="flex:2;min-height:34px;font-size:13px;padding:4px 8px" data-k="acTipo" data-v="Mismo por menor de edad">Mismo por menor de edad</button><button type="button" class="pill sm ${D.acTipo=='Otro'?'on':''}" style="flex:1;min-height:34px;font-size:13px;padding:4px 8px" data-k="acTipo" data-v="Otro">Otro</button></div></div>`;
+if(t=='acinfo')return `<div class="col-span-2" style="margin-top:-6px;padding-left:14px"><div class="text-sm bg-white dark:bg-slate-800 rounded-xl p-3" style="border:2px solid #cbd5e1;margin-left:3px">${CI().map(([a,b])=>`<div class="flex justify-between gap-3 py-0.5"><span class="font-semibold">${a}</span><span class="text-right">${esc(b)||'—'}</span></div>`).join('')}<div class="text-xs mt-1" style="opacity:.65">Datos ingresados en la página 2</div></div></div>`;
+if(t=='tipoc')return `<div class="col-span-2 flex gap-2"><div style="width:17%;flex:none"><span class="l">Tipo</span><div class="relative"><div id="tdvc" class="inp flex items-center justify-center text-center" style="padding:10px 2px">${TS[v]||'—'}</div><select class="absolute inset-0 w-full h-full opacity-0" data-k="${k}" aria-label="Tipo de documento del acompañante"><option value="">Selecciona…</option>${o.map(([c,n])=>`<option value="${c}" ${v==c?'selected':''}>${n}</option>`).join('')}</select></div></div><div class="flex-1"><label class="l">Documento</label><input class="inp" value="${esc(D.cdoc)}" data-k="cdoc"></div></div>`;
+if(t=='tipoa')return `<div class="col-span-2 flex gap-2"><div style="width:17%;flex:none"><span class="l">Tipo</span><div class="relative"><div id="tdva" class="inp flex items-center justify-center text-center" style="padding:10px 2px">${TS[v]||'—'}</div><select class="absolute inset-0 w-full h-full opacity-0" data-k="${k}" aria-label="Tipo de documento del acudiente"><option value="">Selecciona…</option>${o.map(([c,n])=>`<option value="${c}" ${v==c?'selected':''}>${n}</option>`).join('')}</select></div></div><div class="flex-1"><label class="l">Documento</label><input class="inp" value="${esc(D.adoc)}" data-k="adoc"></div></div>${v=='OTRO'?`<div class="col-span-2"><input class="inp" placeholder="Escribe el tipo de documento" aria-label="Otro tipo de documento del acudiente" value="${esc(D.atdocO)}" data-k="atdocO"></div>`:''}`;
+if(t=='tipo')return `<div class="col-span-2 flex gap-2"><div style="width:17%;flex:none"><span class="l">Tipo</span><div class="relative"><div id="tdv" class="inp flex items-center justify-center text-center" style="padding:10px 2px">${TS[v]||'—'}</div><select class="absolute inset-0 w-full h-full opacity-0" data-k="${k}" aria-label="Tipo de documento"><option value="">Selecciona…</option>${o.map(([c,n])=>`<option value="${c}" ${v==c?'selected':''}>${n}</option>`).join('')}</select></div></div><div class="flex-1"><label class="l">Documento</label><input class="inp" value="${esc(D.doc)}" data-k="doc"></div></div>${v=='OTRO'?`<div class="col-span-2"><input class="inp" placeholder="Escribe el tipo de documento" aria-label="Otro tipo de documento" value="${esc(D.tdocO)}" data-k="tdocO"></div>`:''}`;
+if(t=='gen')return `<div class="col-span-2"><span class="l">${l}</span><div class="flex flex-wrap gap-2">${o.map(x=>`<button type="button" class="pill ${v==x?'on':''}" data-k="${k}" data-v="${x}">${x}</button>`).join('')}</div></div>`;
+if(t=='hr')return `<div class="col-span-2"><div class="border-t border-slate-300 dark:border-slate-600 my-1"></div></div>`;
+if(t=='srow')return '';
+if(t=='docr')return '';
+if(t=='nn')return `<div class="col-span-2"><div class="flex gap-2"><button type="button" class="pill flex-1 ${D.nn?'on':''}" data-act="nn">Paciente N.N</button><button type="button" class="pill flex-1">📷 Escanear CC / TI</button></div></div>`;
+if(t=='sel'||t=='selh')return `<div class="${t=='sel'?'col-span-2':''}"><label class="l">${l}</label><select class="inp" data-k="${k}"><option value="">Selecciona…</option>${o.map(x=>`<option value="${x}" ${v==x?'selected':''}>${x}</option>`).join('')}</select></div>`;
+if(t=='p')return `<div class="col-span-2"><span class="l">${l}</span><div class="flex flex-wrap gap-2">${o.map(x=>`<button type="button" class="pill ${k=='comuna'?'sm':''} ${v==x?'on':''} ${k=='triage'?'t'+x:''}" data-k="${k}" data-v="${x}">${k=='tev'?TEV[x]:x}</button>`).join('')}</div></div>`;
+if(t=='gcs'){const a=['O','V','M'].map(c=>+D['g'+c]||0),done=a.every(Boolean);return `<div class="col-span-2"><span class="l">Escala de coma de Glasgow</span><div class="gres ${done?'done':''}"><div><small>Total (de 3 a 15)</small><div style="font-size:14px;font-weight:700;margin-top:2px">${['O','V','M'].map((c,i)=>c+(a[i]||'–')).join(' · ')}</div></div><div class="n">${done?a[0]+a[1]+a[2]:'—'}<small> /15</small></div></div><div class="grid grid-cols-3 gap-2 mt-3">${GCS.map(([c,n,o])=>`<div class="flex flex-col gap-1.5"><div class="gt">${n}</div>${o.map(([p,x])=>`<button type="button" class="go sm ${D['g'+c]==p?'on':''}" data-g="${c}" data-v="${p}"><span>${x}</span><b>${p}</b></button>`).join('')}</div>`).join('')}</div></div>`}
+if(t=='dolor')return `<div class="col-span-2"><span class="l">${l}${v?' = '+v:''}</span><div class="flex gap-1">${Array.from({length:10},(_,i)=>{const n=i+1,h=Math.round(120-i*120/9),x=n+'/10',on=v==x;return `<button type="button" class="pb ${on?'on':''}" style="background:hsl(${h},75%,${on?42:85}%)" data-k="${k}" data-v="${x}">${n}</button>`}).join('')}</div></div>`;
+if(t=='m')return `<div class="col-span-2">${l?`<span class="l">${l}</span>`:''}<div class="flex flex-wrap gap-2">${o.map(x=>`<button type="button" class="pill ${(D[k]||'').includes(x)?'on':''}" data-m="${k}" data-v="${x}">${x}</button>`).join('')}</div></div>`;
+if(t=='tm')return `<div class="col-span-2"><label class="l">${l}</label><div class="flex gap-2"><input class="inp" type="time" value="${esc(v)}" data-k="${k}"><button type="button" class="pill on" style="white-space:nowrap" data-now="${k}">🕐 Ahora</button></div></div>`;
+if(t=='addr')return `<div class="col-span-2"><label class="l">${l}</label><div class="flex gap-2"><input class="inp" value="${esc(v)}" data-k="${k}"><button type="button" class="pill on" style="white-space:nowrap" data-act="gps">📍 GPS</button></div></div>`;
+if(t=='time')return `<div class="col-span-2"><label class="l">${l}</label><div class="flex gap-2"><input class="inp" type="text" inputmode="numeric" maxlength="5" placeholder="HH:MM" data-t="1" value="${esc(v)}" data-k="${k}"></div></div>`;
+if(t=='date')return `<div><label class="l">${l}</label><input class="inp" type="text" inputmode="numeric" maxlength="10" placeholder="DD/MM/AAAA" value="${esc(v)}" data-k="${k}"></div>`;
+if(t=='foto')return photoUI();
+if(t=='ta')return `<div class="col-span-2"><label class="l">${l}</label><textarea class="inp" rows="3" data-k="${k}">${esc(v)}</textarea></div>`;
+const h=t=='number'||t=='time'||t=='half'||t=='date'||t=='tel';
+return `<div class="${h?'':'col-span-2'}"><label class="l">${l}</label><input class="inp" type="${t=='half'?'text':(t||'text')}" ${t=='number'?'inputmode="decimal"':''} value="${esc(v)}" data-k="${k}"></div>`}
+function zone(k){const{v,x,y}=k,f=v=='f',side=(x<100)==f?'derecho':'izquierdo';
+if(y<52)return f?'cabeza/cara':'cabeza (occipital)';if(y<68)return 'cuello';
+if(x<60||x>140)return (y<135?'brazo':y<175?'antebrazo':'mano')+' '+side;
+if(y<196)return y<125?(f?'tórax':'espalda alta'):y<165?(f?'abdomen':'zona lumbar'):'pelvis/cadera';
+return (y<290?'muslo':y<350?'pierna':'pie')+' '+side}
+function body(v,live){
+const m=M.map((k,i)=>k.v!=v?'':`<g data-i="${i}"><circle cx="${k.x}" cy="${k.y}" r="10" fill="${LT[k.t][1]}" stroke="#fff" stroke-width="2"/><text x="${k.x}" y="${k.y+4}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${LT[k.t][0]}</text></g>`).join('');
+return `<svg viewBox="0 0 200 412" data-v="${v}" ${live?'data-live="1" style="width:100%;touch-action:none"':'style="width:45%;max-height:200px"'}><g fill="${live?'#cbd5e1':'#fff'}" stroke="#64748b" stroke-width="2"><circle cx="100" cy="30" r="22"/><rect x="88" y="50" width="24" height="16"/><rect x="62" y="66" width="76" height="130" rx="18"/><rect x="34" y="70" width="24" height="130" rx="12"/><rect x="142" y="70" width="24" height="130" rx="12"/><rect x="64" y="196" width="34" height="190" rx="14"/><rect x="102" y="196" width="34" height="190" rx="14"/></g>${m}<text x="100" y="406" text-anchor="middle" font-size="12" font-weight="700" fill="#64748b">${v=='f'?'FRENTE':'ESPALDA'}</text></svg>`}
+const lesions=()=>M.length?M.map(k=>`<li>${k.t} · ${zone(k)}</li>`).join(''):'<li>Sin lesiones marcadas</li>';
+const TH=[['hSalida','Salida'],['hEscena','Llegada a la escena'],['hTraslado','Inicio traslado'],['hIPS','Llegada a la IPS'],['hFin','Fin del evento']];
+const hm=s=>{let d=String(s).replace(/\D/g,'').slice(0,4);if(d.length>=2)d=String(Math.min(+d.slice(0,2),23)).padStart(2,'0')+d.slice(2);if(d.length>=4)d=d.slice(0,2)+String(Math.min(+d.slice(2),59)).padStart(2,'0');return d.length>2?d.slice(0,2)+':'+d.slice(2):d};
+const dm=s=>{let d=String(s).replace(/\D/g,'').slice(0,8);if(d.length>=2)d=String(Math.min(+d.slice(0,2),31)).padStart(2,'0')+d.slice(2);if(d.length>=4)d=d.slice(0,2)+String(Math.min(+d.slice(2,4),12)).padStart(2,'0')+d.slice(4);return d.length>4?d.slice(0,2)+'/'+d.slice(2,4)+'/'+d.slice(4):d.length>2?d.slice(0,2)+'/'+d.slice(2):d};
+const tbar=()=>`<div class="grid grid-cols-5 gap-1">${TH.map(([k,l])=>`<div class="text-center"><span class="flex items-center justify-center h-[26px] text-[11px] font-bold leading-tight mb-0.5">${l}</span><input class="tinp" type="text" inputmode="numeric" maxlength="5" placeholder="HH:MM" data-t="1" value="${esc(D[k])}" data-k="${k}" aria-label="Hora ${l}"><button type="button" class="pill on xs mt-1" data-now="${k}">Ahora</button></div>`).join('')}</div>`;
+function render(){const s=S[step];
+let h=`<div id="tbar"><div class="flex gap-1 mb-2">${S.map((_,i)=>`<div class="h-2 flex-1 rounded ${i<=step?'bg-red-600':'bg-slate-300 dark:bg-slate-600'}"></div>`).join('')}</div>${tbar()}</div><h2 class="text-xl font-bold mb-3">${step+1}. ${s.t}</h2>`;
+if(s.map)h+=`<div class="flex flex-wrap gap-2 mb-2">${Object.keys(LT).map(t=>`<button type="button" class="pill sm ${mt==t?'on':''}" data-lt="${t}">${t}</button>`).join('')}</div><p class="text-sm mb-2">Toca el cuerpo para marcar «${mt}». Toca un marcador para quitarlo.</p><div class="grid grid-cols-2 gap-2">${body('f',1)}${body('b',1)}</div><ul class="list-disc pl-5 mt-3 text-sm">${lesions()}</ul><button type="button" class="pill sm mt-2" data-act="undo">↩ Deshacer último</button><div class="mt-4"><label class="l">Observaciones (Procedimientos realizados al paciente)</label><textarea class="inp" rows="4" data-k="obs">${esc(D.obs)}</textarea></div>`;
+else h+=`<div class="grid grid-cols-2 gap-3">${s.f.filter(f=>f[2]!='tm').map(field).join('')}</div>`;
+if(step==4)h+=`<div class="mt-5 grid gap-2"><button class="pill on" data-act="sheet">📄 Generar Registro de Atención al Paciente</button><button class="pill" data-act="copy">📋 Copiar resumen para WhatsApp</button><button class="pill" data-act="wa">💬 Abrir WhatsApp con el resumen</button></div>`;
+$('main').innerHTML=h;
+$('nav').innerHTML=`<button class="pill flex-1" data-act="prev" ${step?'':'disabled style="opacity:.4"'}>← Atrás</button><button class="pill on flex-1" data-act="${step==4?'sheet':'next'}">${step==4?'Generar hoja':'Siguiente →'}</button>`}
+const sxSp=(w,n)=>{const t=w.reduce((a,b)=>a+b,0),r=w.map(x=>Math.max(1,Math.round(x*n/t)));r[r.length-1]+=n-r.reduce((a,b)=>a+b,0);return r};
+const sxRow=(a,x)=>{a=a.filter(Boolean);if(!a.length)return '';const s=sxSp(a.map(c=>c[2]),24);return '<tr>'+a.map((c,i)=>'<td colspan="'+s[i]+'"'+(x?' style="'+x+'"':'')+'><small>'+c[0]+'</small><br>'+c[1]+'&nbsp;</td>').join('')+'</tr>'};
+const sxCh=a=>{a=a.filter(Boolean);let o='';for(let j=0;j<a.length;j+=3)o+=sxRow(a.slice(j,j+3));return o};
+const sxTab=(r,m)=>'<table class="st" style="table-layout:fixed;overflow-wrap:anywhere'+(m?';margin-bottom:'+m:'')+'"><colgroup>'+'<col>'.repeat(24)+'</colgroup>'+r+'</table>';
+function sxSec(i,s){
+const F=k=>s.f.find(f=>f[0]==k),C=(k,w)=>{const f=F(k);return f?[f[1],g(k),w]:null},L=ks=>sxCh(ks.map(k=>C(k,1)));
+if(i==0)return sxTab(sxRow([C('ips',1),C('sem',1),C('placa',1)]),'8px')+sxTab(sxRow([C('hEvento',1),C('hSalida',1),C('hEscena',1)])+sxRow([C('hTraslado',1),C('hIPS',1),C('hFin',1)])+sxRow([C('comuna',1),C('direccion',2)]));
+if(i==1){const u=['nn','nombre','nnNombre','genero','edadAprox','tdoc','doc','fnac','edad','tsangre','ecivil','eps','ocup','dirViv','aParent','aNombre','atdoc','adoc','tel','emerg','victimas','tev','hechos'],rest=s.f.filter(f=>!u.includes(f[0])&&!['hr','tog','foto'].includes(f[2])).map(f=>f[0]);
+return sxTab(sxRow([C('nombre',19),F('nnNombre')?['Nombre completo','N.N',14]:null,C('genero',5),C('edadAprox',5)])+sxRow([C('tdoc',3),C('doc',9),C('fnac',7),C('edad',5)]),'5px')+sxTab(sxRow([C('tsangre',5),C('ecivil',5),C('eps',9)])+sxRow([C('ocup',8),C('dirViv',16)])+sxRow([C('aParent',5),C('aNombre',8),C('atdoc',5),C('adoc',6)])+sxRow([C('tel',8),C('emerg',16)]),'8px')+sxTab(sxRow([C('victimas',8),C('tev',16)])+L(rest)+sxRow([C('hechos',1)]))}
+const A=[C('acTipo',1)].concat(F('acinfo')?CI().map(([l,v])=>[l+' (acompañante)',esc(v),1]):['cParent','cNombre','ctdoc','cdoc','cTel'].map(k=>C(k,1)));
+return sxTab(sxRow([C('ipsTras',1),C('aux',1),C('cond',1)]),'8px')+sxTab(sxRow([C('adm',1)]))}
+function sheet(){
+const V=S[3].f.filter(f=>f[2]!='sub'&&f[2]!='niega'&&f[2]!='txt'&&f[0]!='gl'&&f[0]!='neuro'&&f[0]!='triage'&&f[2]!='hr'),VT=S[3].f.filter(f=>f[2]=='niega'||f[2]=='txt');
+let h=`<div class="noprint" style="display:flex;gap:8px;padding:12px;background:#f1f5f9"><button class="pill sm" data-act="back">← Volver</button><button class="pill sm on" data-act="print">🖨 Imprimir / Guardar PDF</button></div><div style="padding:14px;max-width:800px;margin:auto"><table class="st"><tr><td style="width:68%"><b style="font-size:15px">${esc(D.ips)||'IPS AMG N° 31736'}</b><br>Registro de Atención al Paciente</td><td>Generado:<br>${new Date().toLocaleString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'})}</td></tr></table>`;
+S.forEach((s,i)=>{h+=`<div class="sh">${s.t.toUpperCase()}</div>`;
+if(i==3)h+=`<table class="st"><tr>${V.map(f=>`<td><small>${f[1]}</small></td>`).join('')}</tr><tr>${V.map(f=>`<td style="height:26px;font-weight:700">${g(f[0])}</td>`).join('')}</tr></table>${glx()}${trx()}`+(VT.length?'<div class="sh">EVALUACIÓN SECUNDARIA</div><table class="st">'+VT.map(f=>`<tr><td><small>${f[1]}</small><br>${f[2]=='niega'&&D[f[0]+'N']?'Niega':g(f[0])}&nbsp;</td></tr>`).join('')+'</table>':'');
+else if(i==2)h+=`<div style="border:1px solid #000;display:flex;justify-content:space-around;padding:4px">${body('f')}${body('b')}</div><ul style="font-size:11px;padding-left:18px;margin:2px 0;list-style:disc">${lesions()}</ul><div style="border:1px solid #000;padding:4px;font-size:11px;min-height:44px;margin-top:3px;white-space:pre-wrap"><small>Observaciones / Procedimientos realizados</small><br>${g('obs')}</div>`;
+else h+=sxSec(i,s)});
+h+=`<div class="sh">TRATAMIENTO DE DATOS PERSONALES (HABEAS DATA)</div><p style="font-size:10px;text-align:justify;margin:3px 0">Autorizo a la IPS AMG N° 31736 para recolectar, almacenar y usar mis datos personales y sensibles de salud, conforme a la Ley 1581 de 2012, con fines de atención en salud, trazabilidad del traslado y reporte a aseguradoras y autoridades competentes. Conozco mis derechos a conocer, actualizar, rectificar y suprimir mis datos.</p>
+<table class="st" style="margin-top:8px;table-layout:fixed">${[[['Paciente / Acudiente',esc(nom())],['IPS que recibe al paciente',g('adm')]],[['Auxiliar / Paramédico',g('aux')],['Conductor',g('cond')]]].map(r=>`<tr>${r.map(x=>`<td style="height:80px;vertical-align:bottom;text-align:center;border:none">______________________<br>${x[0]}<br><small>${x[1]}</small></td>`).join('')}</tr>`).join('')}</table>`;
+if(P.length)h+=`<div class="sh">REGISTRO FOTOGRÁFICO DE LESIONES</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px">${P.map((p,i)=>`<div style="break-inside:avoid;font-size:11px"><img src="${p.src}" style="width:100%;border:1px solid #000"><b>Foto ${i+1}</b>${p.cap?' · '+esc(p.cap):''}</div>`).join('')}</div>`;
+h+='</div>';return h}
+const wa=()=>`🚑 *Registro de Atención al Paciente*\n📍 ${D.direccion||'—'}${D.comuna&&D.comuna!='No aplica'?' (Comuna '+D.comuna+')':''}\n🚨 Triage: ${D.triage||'—'}${D.neuro?' | '+D.neuro:''}\n👤 ${nom()||'—'}, ${eda()||'—'}, ${D.genero||'—'}${D.idEstado?' ⚠️ '+D.idEstado:''}\n💓 TA ${D.pas||'—'}/${D.pad||'—'} · FC ${D.fc||'—'} · SatO₂ ${D.sat||'—'}% · FR ${D.fr||'—'} · T ${D.temp||'—'}°C · Glasgow ${D.gl||'—'}\n🩹 Lesiones: ${M.length?M.map(k=>k.t+' ('+zone(k)+')').join('; '):'ninguna registrada'}\n${D.obs?'📝 '+D.obs+'\n':''}${evs()}${cmp()}🏥 ${D.ips||'—'} · Ambulancia ${D.placa||'—'}`;
+function copy(t){const ok=()=>toast('Resumen copiado ✔');try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}
+function fb(){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){toast('No se pudo copiar')}a.remove()}}
+const photoUI=()=>`<div class="col-span-2"><div class="flex gap-2"><label class="pill on flex-1 flex items-center justify-center text-center relative overflow-hidden">📷 Foto de la lesión<input type="file" accept="image/*" capture="environment" data-ph="1" class="absolute inset-0 w-full h-full opacity-0"></label><label class="pill flex-1 flex items-center justify-center text-center relative overflow-hidden">🖼 Galería<input type="file" accept="image/*" data-ph="1" class="absolute inset-0 w-full h-full opacity-0"></label></div>${P.length?`<div class="grid grid-cols-2 gap-2 mt-2">${P.map((p,i)=>`<div><img src="${p.src}" class="rounded-lg w-full"><input class="inp mt-1" placeholder="Foto ${i+1}: lesión / zona" data-p="${i}" value="${esc(p.cap)}"><button type="button" class="pill sm mt-1" data-act="delf" data-i="${i}">🗑 Quitar</button></div>`).join('')}</div>`:''}</div>`;
+const tmo=(p,ms)=>Promise.race([p,new Promise(r=>setTimeout(()=>r(null),ms))]);
+const where=()=>new Promise(r=>navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>r({lat:p.coords.latitude,lon:p.coords.longitude}),()=>r(null),{enableHighAccuracy:true,timeout:8000,maximumAge:60000}):r(null));
+async function geo(){const l=await where();if(!l)return null;try{const j=await tmo(fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+l.lat+'&lon='+l.lon).then(r=>r.json()),4000);if(j&&j.address){const a=j.address;l.addr=[[a.road,a.house_number].filter(Boolean).join(' '),a.suburb||a.neighbourhood].filter(Boolean).join(', ')||j.display_name}}catch(e){}return l}
+function tile(l){return new Promise(r=>{const z=17,n=2**z,fx=(l.lon+180)/360*n,s=Math.sin(l.lat*Math.PI/180),fy=(.5-Math.log((1+s)/(1-s))/(4*Math.PI))*n,i=new Image();i.crossOrigin='anonymous';i.onload=()=>r({i,px:fx%1,py:fy%1});i.onerror=()=>r(null);setTimeout(()=>r(null),4000);i.src='https://tile.openstreetmap.org/'+z+'/'+Math.floor(fx)+'/'+Math.floor(fy)+'.png'})}
+async function stamp(file){
+const bm=await createImageBitmap(file),sc=Math.min(1,1000/Math.max(bm.width,bm.height)),w=Math.round(bm.width*sc),h=Math.round(bm.height*sc),c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(bm,0,0,w,h);
+const l=await tmo(geo(),7000),t=l?await tile(l):null,m=Math.round(w*.3),y0=h-m;
+if(l){if(t)x.drawImage(t.i,0,y0,m,m);else{x.fillStyle='#e2e8f0';x.fillRect(0,y0,m,m);x.strokeStyle='#94a3b8';x.lineWidth=1;for(let i=1;i<6;i++){x.beginPath();x.moveTo(i*m/6,y0);x.lineTo(i*m/6,h);x.moveTo(0,y0+i*m/6);x.lineTo(m,y0+i*m/6);x.stroke()}}
+x.fillStyle='#dc2626';x.strokeStyle='#fff';x.lineWidth=3;x.beginPath();x.arc(t?t.px*m:m/2,y0+(t?t.py*m:m/2),m*.06,0,7);x.fill();x.stroke();
+if(t){x.font='10px sans-serif';x.textAlign='left';x.fillStyle='#000';x.fillText('© OpenStreetMap',3,h-3)}}
+const fs=Math.round(w*.032),lines=[new Date().toLocaleString('es-CO',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).replace(',',''),l?l.lat.toFixed(5)+', '+l.lon.toFixed(5):'Sin GPS',(l&&l.addr)||D.direccion||'',D.comuna&&D.comuna!='No aplica'?'Comuna '+D.comuna:''].filter(Boolean).reverse();
+x.font='700 '+fs+'px sans-serif';x.textAlign='right';x.lineJoin='round';x.lineWidth=fs/5;x.strokeStyle='rgba(0,0,0,.75)';x.fillStyle='#fff';
+lines.forEach((s,i)=>{const yy=h-fs*.4-i*fs*1.25;x.strokeText(s,w-fs*.5,yy,w*.66);x.fillText(s,w-fs*.5,yy,w*.66)});
+return c.toDataURL('image/jpeg',.82)}
+const act={
+prev(){step--;render();scrollTo(0,0)},next(){step++;render();scrollTo(0,0)},
+sheet(){$('app').style.display='none';$('fabs').style.display='none';$('sheet').innerHTML=sheet();$('sheet').classList.add('on');scrollTo(0,0)},
+back(){$('sheet').classList.remove('on');$('app').style.display='';$('fabs').style.display='';render()},
+print(){try{print()}catch(e){toast('Abre el enlace en una pestaña del navegador para imprimir')}},
+async gps(){toast('Obteniendo ubicación…');const l=await geo();if(!l)return toast('No se pudo obtener el GPS. Revisa el permiso de ubicación.');const c=l.lat.toFixed(5)+', '+l.lon.toFixed(5);D.direccion=l.addr?l.addr+' ('+c+')':c;const i=document.querySelector('[data-k=direccion]');if(i)i.value=D.direccion;toast('Ubicación agregada ✔')},foto(){$('ph').click()},delf(d){P.splice(+d.i,1);render()},copy(){copy(wa())},wa(){window.open('https://wa.me/?text='+encodeURIComponent(wa()),'_blank')},
+nn(){D.nn=D.nn?'':'1';render()},noscan(){toast('El escaneo solo funciona abriendo la página desde Claude')},acomp(){D.acomp=D.acomp=='Sí'?'':'Sí';if(!D.acomp)D.acTipo='';render()},up(){scrollTo({top:0,behavior:'smooth'})},down(){scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'})},undo(){M.pop();render()},theme(){document.documentElement.classList.toggle('dark')},
+fill(){D={placa:'TPX-482',sem:'SEM-0457',ips:'Ambulancias Vida Segura',ipsTras:'Clínica Santa Ana',direccion:'Cra 15 # 22-40, Barrio Centro',comuna:'3',barrio:'Centro',tev:'A.T',hEvento:'14:05',hSalida:'14:10',hEscena:'14:25',hTraslado:'14:45',hIPS:'14:58',hFin:'15:20',tipoVeh:'Moto',aseg:'SOAT',aseguradora:'Seguros Bolívar',poliza:'POL-908812',polizaPlaca:'KLM-45F',nombre:'Carlos Andrés Pérez Gómez',tdoc:'CC',doc:'1.090.123.456',fnac:'12/04/1990',edad:age('1990-04-12'),genero:'Masculino',tsangre:'O+',ecivil:'Soltero(a)',eps:'Sanitas',ocup:'Mensajero',dirViv:'Calle 30 # 12-45, Barrio Los Pinos',tel:'3001234567',emerg:'María Gómez · 3109876543',hechos:'Paciente conductor de motocicleta que colisiona con un automóvil. Refiere dolor en pierna derecha.',victimas:'1',pas:'130',pad:'85',fc:'98',sat:'96',fr:'20',temp:'36.6',gl:'15 (O4·V5·M6)',gO:'4',gV:'5',gM:'6',triage:'II',antecN:'1',medicN:'1',alergN:'1',acomp:'Sí',acTipo:'Otro',cParent:'Hermana',cNombre:'Daniela Pérez Gómez',ctdoc:'CC',cdoc:'1.090.654.321',cTel:'3157654321',aux:'Laura Ramírez',cond:'Jorge Martínez',adm:'Andrea Rojas',obs:'Inmovilización de miembro inferior derecho por posible fractura, curación de herida y monitoreo de signos vitales.'};
+M=[{v:'f',x:82,y:300,t:'Fractura'},{v:'f',x:50,y:150,t:'Laceración'},{v:'b',x:120,y:150,t:'Abrasión'}];step=0;render();toast('Datos de prueba cargados')},
+new(){if(!armed){armed=1;toast('Toca «Nuevo» otra vez para borrar todo');setTimeout(()=>armed=0,4000)}else{armed=0;D={};M=[];P=[];step=0;render();scrollTo(0,0);toast('Formulario nuevo')}}};
+['input','change'].forEach(ev=>document.addEventListener(ev,e=>{if(e.target.dataset.p!==undefined){P[+e.target.dataset.p].cap=e.target.value;return}const k=e.target.dataset.k;if(!k)return;if(e.target.dataset.t)e.target.value=hm(e.target.value);if(k=='fnac')e.target.value=dm(e.target.value);const old=D[k];D[k]=e.target.value;
+if(k=='tdoc'){const i=$('tdv');if(i)i.textContent=TS[e.target.value]||'—';if(ac(old)!=ac(D.tdoc)||(old=='OTRO')!=(D.tdoc=='OTRO'))render()}
+if(k=='atdoc'){const i=$('tdva');if(i)i.textContent=TS[e.target.value]||'—';if((old=='OTRO')!=(D.atdoc=='OTRO'))render()}
+if(k=='ctdoc'){const i=$('tdvc');if(i)i.textContent=TS[e.target.value]||'—'}
+if(k=='fnac'){const f=e.target.value;D.edad=f.length==10?age(f.slice(6)+'-'+f.slice(3,5)+'-'+f.slice(0,2)):'';const i=document.querySelector('[data-k=edad]');if(i)i.value=D.edad}}));
+document.addEventListener('click',e=>{
+const sv=e.target.closest('svg[data-live]');
+if(sv){const mk=e.target.closest('g[data-i]');
+if(mk)M.splice(+mk.dataset.i,1);
+else{const r=sv.getBoundingClientRect(),q={x:(e.clientX-r.left)/r.width*200,y:(e.clientY-r.top)/r.height*412};if(q.x<0||q.x>200||q.y<0||q.y>400)return;M.push({v:sv.dataset.v,x:Math.round(q.x),y:Math.round(q.y),t:mt})}
+render();return}
+const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+if(d.now){const n=new Date(),t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');D[d.now]=t;const i=document.querySelector('[data-k='+d.now+']');if(i)i.value=t;return}
+if(d.k){D[d.k]=D[d.k]==d.v?'':d.v;if(d.k=='tev'&&!(D.tev=='A.T'?['SOAT','ADRES','Ninguno']:['EPS','ADRES']).includes(D.aseg))D.aseg='';render();return}
+if(d.m){const a=(D[d.m]||'').split(' | ').filter(Boolean),i=a.indexOf(d.v);i<0?a.push(d.v):a.splice(i,1);D[d.m]=a.join(' | ');render();return}
+if(d.g){D['g'+d.g]=D['g'+d.g]==d.v?'':d.v;gl();render();return}
+if(d.lt){mt=d.lt;render();return}
+if(d.act&&act[d.act])act[d.act](d)});
+document.addEventListener('change',async e=>{if(!e.target.dataset.ph)return;const f=e.target.files[0];e.target.value='';if(!f)return;toast('Procesando foto… (puede tardar unos segundos)');try{P.push({src:await stamp(f),cap:''});render();toast('Foto agregada ✔')}catch(err){toast('No se pudo procesar la foto: '+((err&&err.message)||''))}});
+if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark');
+const tc=s=>String(s).toLowerCase().replace(/(^|\s)\S/g,c=>c.toUpperCase());
+(async()=>{try{const s=window.claude?await window.claude.use('sample'):null;if(s){const l=await s.limits();SCOK=!!(l&&l.images)}else SCOK=false}catch(e){SCOK=false}if(SCOK===false&&step==1)render()})();
+document.addEventListener('change',async e=>{
+if(!e.target.dataset.scan)return;
+const f=e.target.files[0];e.target.value='';if(!f||scanning)return;
+scanning=1;SCMSG='⏳ Leyendo documento… (puede tardar unos segundos)';const st=()=>{const el=$('scanst');if(el)el.textContent=SCMSG};st();
+try{
+const s=await window.claude.use('sample');
+let r=await s.json('Esta imagen es una foto de un documento de identidad colombiano (cédula de ciudadanía o tarjeta de identidad; puede ser el frente o el reverso). Lee solo lo que se vea con claridad y responde ÚNICAMENTE con un objeto JSON con estas claves, todas de texto: tdoc ("CC" si es cédula de ciudadanía, "TI" si es tarjeta de identidad, "RN" si es registro civil, "PPT", u "OTRO"), doc (número del documento tal como aparece), nombres, apellidos, nac (nacionalidad, por ejemplo "Colombiana"), fnac (fecha de nacimiento en formato AAAA-MM-DD), genero ("Masculino" o "Femenino" según la letra de sexo M o F). Si un dato no aparece o no se lee con certeza, deja su valor como cadena vacía: no inventes ni completes datos. Si la imagen no es un documento de identidad, devuelve todas las claves vacías.',{images:f});
+r=r||{};
+const TD=['CC','TI','RN','PPT','OTRO'],ok=[],no=[];
+const take=(k,v,l)=>{v=String(v==null?'':v).trim();if(v){D[k]=v;ok.push(l)}else no.push(l)};
+const nm=String(r.nombres||'').trim(),ap=String(r.apellidos||'').trim(),td=String(r.tdoc||'').toUpperCase();
+take('nombre',nm&&ap?tc(nm+' '+ap):'','Nombre y apellidos');
+take('tdoc',TD.includes(td)?td:'','Tipo de documento');
+take('doc',r.doc,'Documento');
+
+const fn=/^\d{4}-\d{2}-\d{2}$/.test(r.fnac||'')&&age(r.fnac)?r.fnac:'';
+take('fnac',fn,'Fecha de nacimiento');
+if(fn){D.edad=age(fn);ok.push('Edad')}else no.push('Edad');
+take('genero',['Masculino','Femenino'].includes(r.genero)?r.genero:'','Sexo');
+SCMSG=(ok.length?'✔ Leído: '+ok.join(', ')+'. ':'')+(no.length?'No se leyó: '+no.join(', ')+(ok.length?'. Si está en el reverso, vuelve a escanear. ':'. Intenta con más luz y el documento recto. '):'')+'Revisa los datos.';
+}catch(err){const c=err&&err.code;SCMSG='⚠ '+(c=='not_granted'?'No diste permiso para usar Claude en esta página.':c=='rate_limited'?'Demasiados intentos, espera un momento y vuelve a intentar.':c=='image_rejected'?'No se pudo usar esa foto. Toma otra.':c=='invalid_json'?'No pude leer el documento. Intenta con más luz y el documento recto.':'No se pudo leer el documento. Intenta de nuevo o escribe los datos a mano.')}
+scanning=0;render()});
+render();
+</script></body></html>
